@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>G2P Catipa</title>
+
+  <style>
+    h1 {
+      font-family: Impact, sans-serif;
+      color: #CE5937;
+    }
+	
+	body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+    }
+
+    textarea {
+      width: 260px;
+      font-size: 16px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    #output {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+	
+	#choiceBox {
+	  position: fixed;
+	  text-align: center;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+	  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	}
+	
+	#app {
+      width: 100%;
+      max-width: 480px;
+      padding: 16px;
+      text-align: center;
+    }
+	
+	footer {
+      margin-top: 24px;
+      opacity: 0.6;
+    }
+    
+    #menuBtn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    #menu button {
+      display: block;
+      width: 100%;
+      margin: 6px 0;
+    }
+	
+	#title {
+      user-select: none;
+    }
+	
+	#esq {
+	  text-align: left;
+	}
+	
+  </style>
+</head>
+
+<body>
+  
+  <div id="app">
+  <button id="menuBtn">☰</button>
+  <div id="menu" style="display:none;">
+    <button onclick="showG2P()">G2P</button>
+	<button onclick="showabout()">Sobre</button>
+    <button onclick="showBRVowels()">Inventário de Vogais</button>
+	<button onclick="showBRConsonants()">Inventário de Consoantes</button>
+	<button onclick="showBRRhotics()">Inventário de Róticas</button>
+	<button onclick="showBRDiphtongs()">Inventário de Ditongos</button>
+  </div>
+
+  <h1 id="title">Catipa</h1>
+  
+  <div id="G2PView">
+  <h2>G2P simples (Português → Catipa)</h2>
+
+  <textarea id="input" rows="1" placeholder="Digite uma palavra..."></textarea>
+  <br><br>
+
+  <button onclick="runG2P()">Converter</button>
+
+  <h3>Saída:</h3>
+  <p><div id="output"></div></p>
+
+  <script src="catipa_ptbr-default_lexicon.js"></script>
+  <script src="catipa_ptbr-default_rules.js"></script>
+
+  <script>
+    function normalizeWord(w) {
+      return w
+        .toLowerCase()
+        .normalize("NFC")
+        .trim();
+    }
+
+    function runG2P() {
+      const raw = document.getElementById("input").value;
+      const output = document.getElementById("output");
+
+      if (!raw.trim()) {
+        output.innerText = "";
+        return;
+      }
+
+      const word = normalizeWord(raw);
+
+      if (LEXICON[word]) {
+	    const entry = LEXICON[word];
+		
+		if (typeof entry === "string") {
+		  output.innerText = entry;
+          return;
+        }
+		
+		showChoicePopup(word, entry);
+		return;
+	  }
+
+      output.innerText = applyRules(word);
+    }
+	
+	document.getElementById("input").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        runG2P();
+      }
+    });
+	
+	window.onload = function () {
+      document.getElementById("input").focus();
+    };
+  </script>
+  <div id="choiceBox" style="display:none;">
+    <p id="choiceWord"></p>
+    <button id="choice1"></button>
+    <button id="choice2"></button>
+  </div>
+  </div>
+  
+  <div id="aboutView" style="display:none;">
+    <table border="1" width="100%">
+	  <tr>
+	    <th>Sobre</th>
+	  </tr>
+	  <tr>
+	    <td id="esq"><p>O Catipa teve suas primeiras aplicações práticas em 2019, quando foi desenvolvido e testado inicialmente como uma codificação fonêmica voltada exclusivamente ao uso no UTAU, no contexto de síntese vocal cantada. Nesse período, a notação foi empregada experimentalmente em produções musicais específicas, servindo como prova de conceito para a representação fonêmica do português em ambientes de síntese baseados em regras e unidades discretas.</p>
+		<p>Embora concebido originalmente apenas para o UTAU, o sistema passou posteriormente por adaptações e refinamentos que permitiram sua utilização em outros motores de síntese vocal, como ENUNU/NNSVS, que combinam modelagem acústica neural com controle fonêmico explícito, e DiffSinger, baseado em modelos de difusão. Essas adaptações exigiram ajustes na granularidade fonêmica, na previsibilidade simbólica e na compatibilidade computacional da notação, ampliando seu escopo técnico.</p>
+		<p>Uma das bases conceituais que contribuíram para a estruturação da versão atual do Catipa foi o ARPAbet, um sistema de codificação fonêmica alfanumérica desenvolvido originalmente para o inglês, amplamente utilizado em aplicações computacionais de reconhecimento e síntese de fala. Inspirado por sua abordagem funcional que prioriza símbolos ASCII simples, estabilidade fonêmica e compatibilidade com processamento automático. O Catipa adota princípios semelhantes, adaptando-os às especificidades fonéticas e fonológicas da língua portuguesa.</p>
+		<p>Atualmente, o Catipa se consolida como uma codificação fonêmica alfanumérica específica para o português, encontrando-se testada, documentada e formalmente nomeada. O sistema contempla inventários tanto para o português brasileiro (PB) quanto para o português europeu (PE); contudo, no estágio atual, apenas o inventário do PB encontra-se integrado ao módulo de conversão grafema-para-fonema (G2P).</p>
+		<p>O G2P do Catipa, desenvolvido e disponibilizado ao final de 2025, foi concebido com o objetivo de fortalecer a codificação e torná-la acessível a qualquer pessoa interessada em utilizá-la, incluindo pesquisadores, criadores independentes e empresas que desejem integrá-la a seus próprios projetos e fluxos de desenvolvimento. No momento, o G2P realiza a conversão exclusivamente para um português brasileiro neutro, servindo como base estável e generalista.</p>
+		<p>A expansão do G2P para variedades regionais do português brasileiro, bem como para o português europeu, constitui um objetivo desejado para versões futuras, visando ampliar a representatividade linguística e o potencial de aplicação do Catipa em contextos mais diversos.</p></td>
+	  </tr>
+	</table>
+  </div>
+  
+  <div id="BRVowelsView" style="display:none;">
+    <table border="1" width="100%">
+      <tr>
+        <th>Catipa</th>
+		<th>IPA</th>
+		<th>∅0</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>a</td>
+		<td>[a]</td>
+		<td>[ɐ]</td>
+        <td>vogal central aberta</td>
+      </tr>
+      <tr>
+        <td>aa</td>
+		<td>[ə]</td>
+		<td></td>
+        <td>vogal central média</td>
+      </tr>
+      <tr>
+        <td>A</td>
+		<td>[ã]</td>
+		<td></td>
+        <td>vogal central aberta nasal</td>
+      </tr>
+	  <tr>
+        <td>e</td>
+		<td>[e]</td>
+		<td></td>
+        <td>vogal anterior semifechada</td>
+      </tr>
+	  <tr>
+        <td>ee</td>
+		<td>[ɛ]</td>
+		<td></td>
+        <td>vogal anterior semiaberta</td>
+      </tr>
+	  <tr>
+        <td>E</td>
+		<td>[ẽ]</td>
+		<td></td>
+        <td>vogal anterior semifechada nasal</td>
+      </tr>
+	  <tr>
+        <td>i</td>
+		<td>[i]</td>
+		<td>[ɪ]</td>
+        <td>vogal anterior fechada</td>
+      </tr>
+	  <tr>
+        <td>I</td>
+		<td>[ĩ]</td>
+		<td></td>
+        <td>vogal anterior fechada</td>
+      </tr>
+	  <tr>
+        <td>o</td>
+		<td>[o]</td>
+		<td></td>
+        <td>vogal posterior semifechada</td>
+      </tr>
+	  <tr>
+        <td>oo</td>
+		<td>[ɔ]</td>
+		<td></td>
+        <td>vogal posterior semiaberta</td>
+      </tr>
+	  <tr>
+        <td>O</td>
+		<td>[õ]</td>
+		<td></td>
+        <td>vogal posterior semifechada nasal</td>
+      </tr>
+	  <tr>
+        <td>u</td>
+		<td>[u]</td>
+		<td>[ʊ]</td>
+        <td>vogal posterior fechada arredondada</td>
+      </tr>
+	  <tr>
+        <td>U</td>
+		<td>[ũ]</td>
+		<td></td>
+        <td>vogal posterior fechada nasal</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="BRConsonantsView" style="display:none;">
+    <table border="1" width="100%">
+      <tr>
+        <th>Catipa</th>
+        <th>IPA</th>
+		<th>Exemplo</th>
+		<th>Forma Catipa</th>
+		<th>Descrição</th>
+      </tr>
+      <tr>
+        <td>b</td>
+        <td>[b]</td>
+		<td>babá</td>
+		<td>b a2 b a1</td>
+		<td>oclusiva bilabial sonora</td>
+      </tr>
+      <tr>
+        <td>d</td>
+        <td>[d]</td>
+		<td>dado</td>
+		<td>d a1 d u0</td>
+		<td>oclusiva alveolar sonora</td>
+      </tr>
+	  <tr>
+        <td>dj</td>
+        <td>[dʒ]</td>
+		<td>dica</td>
+		<td>dj i1 k a0</td>
+		<td>africada pós-alveolar sonora</td>
+      </tr>
+	  <tr>
+        <td>f</td>
+        <td>[f]</td>
+		<td>feto</td>
+		<td>f ee1 t u0</td>
+		<td>fricativa labiodental surda</td>
+      </tr>
+	  <tr>
+        <td>g</td>
+        <td>[g]</td>
+		<td>gago</td>
+		<td>b a1 g u0</td>
+		<td>oclusiva velar sonora</td>
+      </tr>
+	  <tr>
+        <td>j</td>
+        <td>[ʒ]</td>
+		<td>gente<br>jato</td>
+		<td>j E1 tch i0<br>j a1 t u0</td>
+		<td>fricativa pós-alveolar sonora</td>
+      </tr>
+	  <tr>
+        <td>k</td>
+        <td>[k]</td>
+		<td>caco</td>
+		<td>k a1 k u0</td>
+		<td>oclusiva velar surda</td>
+      </tr>
+	  <tr>
+        <td>l</td>
+        <td>[l]</td>
+		<td>lápis</td>
+		<td>l a1 p i0 s</td>
+		<td>lateral alveolar sonora</td>
+      </tr>
+	  <tr>
+        <td>lh</td>
+        <td>[ʎ]</td>
+		<td>olhar</td>
+		<td>o2 lh a1 h</td>
+		<td>lateral palatal sonora</td>
+      </tr>
+	  <tr>
+        <td>m</td>
+        <td>[m]</td>
+		<td>milho</td>
+		<td>m i1 lh u0</td>
+		<td>nasal bilabial sonora</td>
+      </tr>
+	  <tr>
+        <td>n</td>
+        <td>[n]</td>
+		<td>nono</td>
+		<td>n o1 n u0</td>
+		<td>nasal alveolar sonora</td>
+      </tr>
+	  <tr>
+        <td>nh</td>
+        <td>[ɲ]</td>
+		<td>ninho</td>
+		<td>n i1 nh u0</td>
+		<td>nasal palatal sonora</td>
+      </tr>
+	  <tr>
+        <td>p</td>
+        <td>[p]</td>
+		<td>pato</td>
+		<td>p a1 t u0</td>
+		<td>oclusiva bilabial surda</td>
+      </tr>
+	  <tr>
+        <td>q</td>
+        <td>[ʔ]</td>
+		<td>oh-oh</td>
+		<td>q o q o W</td>
+		<td>oclusiva glotal</td>
+      </tr>
+	  <tr>
+        <td>s</td>
+        <td>[s]</td>
+		<td>santo<br>osso</td>
+		<td>s A1 t u0<br>o1 s u0</td>
+		<td>fricativa alveolar surda</td>
+      </tr>
+	  <tr>
+        <td>t</td>
+        <td>[t]</td>
+		<td>tatu</td>
+		<td>t a2 t u1</td>
+		<td>oclusiva alveolar surda</td>
+      </tr>
+	  <tr>
+        <td>tch</td>
+        <td>[tʃ]</td>
+		<td>tchau<br>tigre</td>
+		<td>tch a1 W<br>tch i1 g r i0</td>
+		<td>africada pós-alveolar surda</td>
+      </tr>
+	  <tr>
+        <td>v</td>
+        <td>[v]</td>
+		<td>valor</td>
+		<td>v a2 l o1 h</td>
+		<td>fricativa labiodental sonora</td>
+      </tr>
+	  <tr>
+        <td>x</td>
+        <td>[ʃ]</td>
+		<td>acho<br>xampu</td>
+		<td>a1 x u0<br>x A0 p u1</td>
+		<td>fricativa pós-alveolar surda</td>
+      </tr>
+	  <tr>
+        <td>z</td>
+        <td>[z]</td>
+		<td>zebra<br>asilo</td>
+		<td>z e1 b r a0<br>a2 z i1 l u0</td>
+		<td>fricativa alveolar sonora</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="BRRhoticsView" style="display:none;">
+    <table border="1" width="100%">
+      <tr>
+        <th>Catipa</th>
+		<th>IPA</th>
+		<th>Início</th>
+		<th>Intervocálico</th>
+		<th>Cluster</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>r</td>
+		<td>[ɾ]</td>
+		<td>✖️</td>
+		<td>✔️</td>
+		<td>✔️</td>
+        <td><b>tepe alveolar: </b><br>rótica comumente intervocálica, presente também em finais silábicas em algumas regiões do sul</td>
+      </tr>
+      <tr>
+        <td>R</td>
+		<td>[ɹ]</td>
+		<td>✖️</td>
+		<td>✔️</td>
+		<td>✖️</td>
+        <td><b>aproximante alveolar: </b><br>típica do inglês, presente em diversas regiões do país como Goiás e São Paulo</td>
+      </tr>
+	  <tr>
+        <td>rr</td>
+		<td>[r]</td>
+		<td>✔️</td>
+		<td>✔️</td>
+		<td>✔️</td>
+        <td><b>vibrante alveolar múltipla: </b><br>muito associada ao espanhol, é recorrente em estilizações artísticas como na música e na locução radialística</td>
+      </tr>
+	  <tr>
+        <td>h</td>
+		<td>[h]</td>
+		<td>✔️</td>
+		<td>✔️</td>
+		<td>✖️</td>
+        <td><b>fricativa glotal surda: </b><br>ruído aspirado presente em diversos sotaques regionais e considerado a rótica forte mais neutra</td>
+      </tr>
+	  <tr>
+        <td>H</td>
+		<td>[x], [χ]</td>
+		<td>✔️</td>
+		<td>✔️</td>
+		<td>✖️</td>
+        <td><b>fricativa glotal surda: </b><br>ruído aspirado presente em diversos sotaques regionais e considerado a rótica forte mais neutra</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div id="BRDiphtongsView" style="display:none;">
+    <table border="1" width="100%">
+      <tr>
+        <th>Catipa</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>Y</td>
+        <td>ditongo decrescente</td>
+      </tr>
+      <tr>
+        <td>W</td>
+        <td>ditongo decrescente</td>
+      </tr>
+      <tr>
+        <td>y</td>
+        <td>ditongo crescente</td>
+      </tr>
+	  <tr>
+        <td>w</td>
+        <td>ditongo crescente</td>
+      </tr>
+    </table>
+  </div>
+  
+  <footer>
+    <small>© 2026 Junia da Costa</small>
+  </footer>
+  </div>
+  
+  <script>
+  document.getElementById("menuBtn").onclick = () => {
+     const menu = document.getElementById("menu");
+     menu.style.display = menu.style.display === "none" ? "block" : "none";
+  };
+  
+  function hideAllViews() {
+     document.getElementById("G2PView").style.display = "none";
+	 document.getElementById("aboutView").style.display = "none";
+     document.getElementById("BRVowelsView").style.display = "none";
+     document.getElementById("BRConsonantsView").style.display = "none";
+     document.getElementById("BRRhoticsView").style.display = "none";
+     document.getElementById("BRDiphtongsView").style.display = "none";
+  }
+  
+  function showG2P() {
+      hideAllViews();
+      document.getElementById("G2PView").style.display = "block";
+      document.getElementById("menu").style.display = "none";
+      document.getElementById("input").focus();
+  }
+  
+  function showabout() {
+      hideAllViews();
+      document.getElementById("aboutView").style.display = "block";
+      document.getElementById("menu").style.display = "none";
+  }
+  
+  function showBRVowels() {
+      hideAllViews();
+      document.getElementById("BRVowelsView").style.display = "block";
+      document.getElementById("menu").style.display = "none";
+  }
+  
+  function showBRConsonants() {
+      hideAllViews();
+	  document.getElementById("BRConsonantsView").style.display = "block";
+	  document.getElementById("menu").style.display = "none";
+  }
+  
+  function showBRRhotics() {
+      hideAllViews();
+	  document.getElementById("BRRhoticsView").style.display = "block";
+	  document.getElementById("menu").style.display = "none";
+  }
+  
+  function showBRDiphtongs() {
+      hideAllViews();
+	  document.getElementById("BRDiphtongsView").style.display = "block";
+      document.getElementById("menu").style.display = "none";
+  }
+  </script>
+  
+</body>
+</html>

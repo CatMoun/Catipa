@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: Catipa
+message: "Se você utilizar o Catipa em trabalhos acadêmicos, por favor cite este software."
+type: software
+
+authors:
+  - family-names: Costa
+    given-names: Junia
+    name-particle: da
+
+version: 0.0.1
+date-released: 2025-12-31
+
+abstract: >
+  Catipa é uma codificação fonêmica alfanumérica específica para a língua portuguesa,
+  projetada para uso computacional, com foco em síntese de voz, conversão
+  grafema-para-fonema (G2P) e aplicações linguísticas.
+
+license: MIT
+url: https://catmoun.github.io/catipa/
+repository-code: https://github.com/catmoun/catipa
