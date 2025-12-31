@@ -12,9 +12,12 @@ function applyRules(word) {
   // =========================
   
   w = w.replace(/(?<=[aâáãeêéiíoôóuú])s(?=[aâáãeêéiíoôóuú])/g, "z");
+  w = w.replace(/([uú])\s*l(?![aâáãeêéiíoôóuúwyY])/g, "$1");
   w = w.replace(/z\s*$/, "s");
   w = w.replace(/qu(?=[aâáãoôó])/g, "kw");
   w = w.replace(/qu(?=[eêéií])/g, "k");
+  w = w.replace(/gu(?=[aâáãoôó])/g, "gw");
+  w = w.replace(/gu(?=[eêéií])/g, "g");
   w = w.replace(/ss/g, "s");
   w = w.replace(/xc/g, "s");
   w = w.replace(/x(?=[aâáãeêéiíoôóuú])/g, "z");
@@ -23,7 +26,7 @@ function applyRules(word) {
   w = w.replace(/c(?=[eêéií])/g, "s");
   w = w.replace(/d(?=[ií])/g, "dj");
   w = w.replace(/de\s*$/, "dje");
-  w = w.replace(/ch/g, "x");
+  w = w.replace(/(!t)ch/g, "x");
   w = w.replace(/t(?=[ií])/g, "tch");
   w = w.replace(/te\s*$/, "tche");
   
