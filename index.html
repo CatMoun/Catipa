@@ -90,10 +90,7 @@
   <div id="menu" style="display:none;">
     <button onclick="showG2P()">G2P</button>
 	<button onclick="showabout()">Sobre</button>
-    <button onclick="showBRVowels()">Inventário de Vogais</button>
-	<button onclick="showBRConsonants()">Inventário de Consoantes</button>
-	<button onclick="showBRRhotics()">Inventário de Róticas</button>
-	<button onclick="showBRDiphtongs()">Inventário de Ditongos</button>
+    <button onclick="showInventoryBR()">Inventário PTBR</button>
   </div>
 
   <h1 id="title">Catipa</h1>
@@ -107,7 +104,7 @@
   <button onclick="runG2P()">Converter</button>
 
   <h3>Saída:</h3>
-  <p><div id="output"></div></p>
+  <div id="output"></div>
 
   <script src="catipa_ptbr-default_lexicon.js"></script>
   <script src="catipa_ptbr-default_rules.js"></script>
@@ -180,8 +177,9 @@
 	</table>
   </div>
   
-  <div id="BRVowelsView" style="display:none;">
-    <table border="1" width="100%">
+  <div id="InventoryBRView" style="display:none;">
+    <h2>Vogais</h2>
+	<table border="1" width="100%">
       <tr>
         <th>Catipa</th>
 		<th>IPA</th>
@@ -267,9 +265,7 @@
         <td>vogal posterior fechada nasal</td>
       </tr>
     </table>
-  </div>
-  
-  <div id="BRConsonantsView" style="display:none;">
+  <h2>Consoantes</h2>
     <table border="1" width="100%">
       <tr>
         <th>Catipa</th>
@@ -419,9 +415,7 @@
 		<td>fricativa alveolar sonora</td>
       </tr>
     </table>
-  </div>
-  
-  <div id="BRRhoticsView" style="display:none;">
+    <h2>Róticas</h2>
     <table border="1" width="100%">
       <tr>
         <th>Catipa</th>
@@ -472,9 +466,7 @@
         <td><b>fricativa glotal surda: </b><br>ruído aspirado presente em diversos sotaques regionais e considerado a rótica forte mais neutra</td>
       </tr>
     </table>
-  </div>
-  
-  <div id="BRDiphtongsView" style="display:none;">
+    <h2>Ditongos</h2>
     <table border="1" width="100%">
       <tr>
         <th>Catipa</th>
@@ -513,10 +505,7 @@
   function hideAllViews() {
      document.getElementById("G2PView").style.display = "none";
 	 document.getElementById("aboutView").style.display = "none";
-     document.getElementById("BRVowelsView").style.display = "none";
-     document.getElementById("BRConsonantsView").style.display = "none";
-     document.getElementById("BRRhoticsView").style.display = "none";
-     document.getElementById("BRDiphtongsView").style.display = "none";
+     document.getElementById("InventoryBRView").style.display = "none";
   }
   
   function showG2P() {
@@ -532,27 +521,9 @@
       document.getElementById("menu").style.display = "none";
   }
   
-  function showBRVowels() {
+  function showInventoryBR() {
       hideAllViews();
-      document.getElementById("BRVowelsView").style.display = "block";
-      document.getElementById("menu").style.display = "none";
-  }
-  
-  function showBRConsonants() {
-      hideAllViews();
-	  document.getElementById("BRConsonantsView").style.display = "block";
-	  document.getElementById("menu").style.display = "none";
-  }
-  
-  function showBRRhotics() {
-      hideAllViews();
-	  document.getElementById("BRRhoticsView").style.display = "block";
-	  document.getElementById("menu").style.display = "none";
-  }
-  
-  function showBRDiphtongs() {
-      hideAllViews();
-	  document.getElementById("BRDiphtongsView").style.display = "block";
+      document.getElementById("InventoryBRView").style.display = "block";
       document.getElementById("menu").style.display = "none";
   }
   </script>
