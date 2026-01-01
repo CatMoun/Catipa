@@ -49,3 +49,5 @@ Contribuições são bem-vindas. Sugestões, correções e propostas de expansã
   - adicionado "ân" na lista de nasalizações.
 - v0.0.3 (31-12-2025)
   - correção de bugs gerais 
+- v0.0.4 (01-01-2026)
+  - correção de bug que excluía o fonema /lh/.
