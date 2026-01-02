@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Catipa - Codificação Fonêmica Alfanumérica | G2P</title>
+  <title>Catipa - Codificação Fonêmica Alfanumérica para Português | G2P</title>
 
   <style>
     h1 {
@@ -56,6 +56,7 @@
     }
 	
 	footer {
+	  user-select: none;
       margin-top: 24px;
       opacity: 0.6;
     }
@@ -91,6 +92,7 @@
   <div id="menu" style="display:none;">
     <button onclick="showG2P()">G2P</button>
 	<button onclick="showDoc('view/about.html')">Sobre</button>
+	<button onclick="showDoc('view/report.html')">Encontrou um erro?</button>
     <button onclick="showDoc('view/pb_inventory.html')">Inventário PB</button>
 	<button onclick="showDoc('view/pe_inventory.html')">Inventário PE</button>
   </div>
@@ -98,7 +100,12 @@
   <h1 id="title">Catipa v1.0.0</h1>
   
   <section id="g2p">
-  <h2>G2P: PB 'Neutro' → Catipa</h2>
+  <h2>G2P: Português → Catipa</h2>
+  <select id="variant" disabled>
+     <option>Brasileiro 'Neutro'</option>
+     <option>Brasileiro 'Goiás'</option>
+     <option>Europeu 'Neutro'</option>
+  </select><br><br>
 
   <textarea id="input" rows="1" placeholder="Digite uma palavra..."></textarea>
   <br><br>
