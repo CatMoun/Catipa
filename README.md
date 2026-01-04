@@ -51,3 +51,10 @@ Contribuições são bem-vindas. Sugestões, correções e propostas de expansã
   - correção de bugs gerais 
 - v0.0.4 (01-01-2026)
   - correção de bug que excluía o fonema /lh/.
+- v1.0.0 (02-01-2026)
+  - novo tratamento no G2P para novas possibilidades futuras
+  - correções mínimas
+- v1.1.0 (04-01-2026)
+  - correção radical para resolução da falta do fonema /ks/
+  - lexicon atualizado
+  - adição de resolver.js
