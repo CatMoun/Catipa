@@ -20,6 +20,11 @@ const LEXICON = {
 	"abordem": "a2 b oo1 h d E0 Y",
 	"abordo": "a2 b oo1 h d u0",
 	"abre-alas": "a2 b r i2 a1 l a0 s",
+	"acessa": "a2 s ee1 s a0",
+	"acessam": "a2 s ee1 s A0 W",
+	"acesso": "a2 s ee1 s u0",
+	"acessos": "a2 s ee1 s u0 s",
+	///1500
 	"acordo": {
 	  default : "substantivo",
 	  entries : [
@@ -95,6 +100,7 @@ const LEXICON = {
       ]
 	},
 	"sexo": "s ee1 k s u0",
+	"sexy": "s ee1 k s i0",
 	"show": "x o1 W",
 	"volto": "v oo1 W t u0"
 };
