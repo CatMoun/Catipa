@@ -58,3 +58,5 @@ Contribuições são bem-vindas. Sugestões, correções e propostas de expansã
   - correção radical para resolução da falta do fonema /ks/
   - lexicon atualizado
   - adição de resolver.js
+- v1.1.1 (05-01-2026)
+  - atualização de léxico e regras
