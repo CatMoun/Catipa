@@ -60,3 +60,5 @@ Contribuições são bem-vindas. Sugestões, correções e propostas de expansã
   - adição de resolver.js
 - v1.1.1 (05-01-2026)
   - atualização de léxico e regras
+- v1.1.2 (09-01-2026)
+  - atualização de léxico e regras
