@@ -77,6 +77,7 @@ const LEXICON = {
           { type: "verbo", ipa: "oo' lh u0" }
       ]
 	},
+	"ortodontologia": "oo2 h t o2 d O2 t o2 l o2 g i1 a0",
 	"próximo": "p r oo1 s i2 m u0",
 	"seca": {
 	  default : "substantivo",
